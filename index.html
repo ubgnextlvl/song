@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UBG NEXT LEVEL – Song einreichen</title>
+<title>UBG NEXT LEVEL</title>
 <style>
 :root{--red:#e32636;--gold:#d8ad55;--muted:#a7adba}
 *{box-sizing:border-box}
@@ -23,29 +23,35 @@ h1 span{color:var(--red);text-shadow:0 0 35px #e3263655}
 label{display:block;font-size:13px;font-weight:bold;margin:16px 0 7px;color:#e8eaf0}
 input,select{width:100%;padding:13px 14px;border-radius:9px;border:1px solid #ffffff25;background:#0b0d13;color:#fff;font-size:15px;outline:none}
 input:focus,select:focus{border-color:var(--gold)}
-.check{display:flex;gap:10px;align-items:flex-start;margin:18px 0;color:var(--muted);font-size:13px;line-height:1.5}
-.check input{width:auto;margin-top:2px}
+.check{display:flex;gap:10px;align-items:flex-start;margin:18px 0;color:var(--muted);font-size:13px;line-height:1.5}.check input{width:auto;margin-top:2px}
 button{border:0;border-radius:9px;padding:14px 20px;background:var(--red);color:white;font-weight:900;letter-spacing:1px;cursor:pointer;width:100%;font-size:14px}
 button:disabled{opacity:.55;cursor:wait}
 #message,#adminMessage{margin-top:14px;padding:12px;border-radius:9px;display:none;line-height:1.5;font-size:14px}
 #message.ok,#adminMessage.ok{display:block;background:#173b2b;color:#a9f0c8;border:1px solid #2a8054}
 #message.err,#adminMessage.err{display:block;background:#401c22;color:#ffc0c6;border:1px solid #9d3b49}
 .admin-link{width:auto;padding:10px 14px;background:#242936;border:1px solid #ffffff25}
-.admin-area{display:none;margin-top:38px}
-.admin-area.visible{display:block}
-.admin-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.admin-top button{width:auto}
+.admin-area{display:none;margin-top:38px}.admin-area.visible{display:block}
+.admin-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.admin-top button{width:auto}
 .submission{border:1px solid #ffffff20;border-radius:12px;padding:16px;margin-top:12px;background:#0c0f16}
-.submission h3{margin:0 0 8px;font-size:17px}
-.submission p{margin:5px 0;overflow-wrap:anywhere}
-.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.actions button{width:auto;flex:1;min-width:130px;padding:11px}
-.actions .reject{background:#555b68}
-.status{display:inline-block;padding:4px 9px;border-radius:20px;background:#343947;color:#eee;font-size:11px;text-transform:uppercase}
+.submission h3{margin:0 0 8px;font-size:17px}.submission p{margin:5px 0;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.actions button{width:auto;flex:1;min-width:130px;padding:11px}
+.actions .reject{background:#555b68}.status{display:inline-block;padding:4px 9px;border-radius:20px;background:#343947;color:#eee;font-size:11px;text-transform:uppercase}
+footer{text-align:center;color:#737987;padding:25px;font-size:11px;letter-spacing:2px}
+#liveView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:4vw;text-align:center}
+.live-shell{width:min(1100px,100%);padding:clamp(28px,6vw,70px);border:1px solid #d8ad5570;border-radius:24px;background:linear-gradient(145deg,#1a1e29ee,#090a0fee);box-shadow:0 0 80px #0009}
+.live-brand{font-weight:1000;letter-spacing:clamp(3px,1vw,10px);font-size:clamp(22px,4vw,42px)}
+.live-brand span{color:var(--red)}
+.live-kicker{margin-top:38px;color:var(--gold);letter-spacing:6px;font-size:clamp(11px,1.5vw,16px);font-weight:bold}
+.live-artist{font-size:clamp(32px,7vw,76px);font-weight:900;margin:22px 0 8px;overflow-wrap:anywhere}
+.live-title{font-size:clamp(22px,4vw,44px);color:#e5e7eb;margin:0;overflow-wrap:anywhere}
+.live-meta{color:var(--muted);margin-top:24px;font-size:clamp(13px,2vw,18px)}
+.live-link{display:inline-block;margin-top:34px;padding:15px 24px;background:var(--red);border-radius:9px;color:white;text-decoration:none;font-weight:900;letter-spacing:1px}
+.live-empty{color:var(--muted);font-size:clamp(18px,3vw,30px);margin-top:35px}
 @media(max-width:760px){.layout{grid-template-columns:1fr}main{padding-top:30px}.admin-top{align-items:stretch}.admin-top button{width:100%}}
 </style>
 </head>
 <body>
+<div id="normalApp">
 <header>
   <div><div class="brand">UBG<span>.</span> NEXT LEVEL</div><div class="tag">Underdog Battle Ground</div></div>
   <button class="admin-link" id="openAdmin" type="button">ADMIN-LOGIN</button>
@@ -62,21 +68,14 @@ button:disabled{opacity:.55;cursor:wait}
     <h2>🎤 Song einreichen</h2>
     <p>Fülle alle Pflichtfelder aus. Dein Song wird zunächst zur Prüfung eingereicht.</p>
     <form id="submissionForm">
-      <label for="artist">Künstlername *</label>
-      <input id="artist" name="artist" maxlength="80" required placeholder="Dein Künstlername">
-      <label for="title">Songtitel *</label>
-      <input id="title" name="title" maxlength="120" required placeholder="Titel deines Songs">
+      <label for="artist">Künstlername *</label><input id="artist" name="artist" maxlength="80" required placeholder="Dein Künstlername">
+      <label for="title">Songtitel *</label><input id="title" name="title" maxlength="120" required placeholder="Titel deines Songs">
       <label for="platform">Plattform *</label>
-      <select id="platform" name="platform" required>
-        <option value="">Bitte auswählen</option><option value="Suno">Suno</option><option value="YouTube">YouTube</option><option value="Spotify">Spotify</option>
-      </select>
-      <label for="url">Song-Link *</label>
-      <input id="url" name="url" type="url" required placeholder="https://...">
-      <label for="round">Battle / Runde (optional)</label>
-      <input id="round" name="round" maxlength="100" placeholder="z. B. UBG Next Level – Runde 1">
+      <select id="platform" name="platform" required><option value="">Bitte auswählen</option><option value="Suno">Suno</option><option value="YouTube">YouTube</option><option value="Spotify">Spotify</option></select>
+      <label for="url">Song-Link *</label><input id="url" name="url" type="url" required placeholder="https://...">
+      <label for="round">Battle / Runde (optional)</label><input id="round" name="round" maxlength="100" placeholder="z. B. UBG Next Level – Runde 1">
       <label class="check"><input id="rules" type="checkbox" required><span>Ich bestätige, dass ich den eingereichten Song teilen darf und die UBG-Regeln akzeptiere: kein Hass, kein Krieg, kein Stress. *</span></label>
-      <button id="submitButton" type="submit">SONG EINREICHEN</button>
-      <div id="message" role="status" aria-live="polite"></div>
+      <button id="submitButton" type="submit">SONG EINREICHEN</button><div id="message" role="status" aria-live="polite"></div>
     </form>
   </div>
   <aside class="card">
@@ -85,18 +84,13 @@ button:disabled{opacity:.55;cursor:wait}
     <p><strong>Hinweis:</strong> Eine Einreichung bedeutet noch keine automatische Teilnahme. Das UBG-Team entscheidet über die Freigabe.</p>
   </aside>
 </section>
-
 <section class="admin-area" id="adminArea">
   <div class="card" id="loginCard">
-    <h2>🔐 UBG Admin-Login</h2>
-    <p>Dieser Bereich ist nur für den eingerichteten UBG-Administrator zugänglich.</p>
+    <h2>🔐 UBG Admin-Login</h2><p>Dieser Bereich ist nur für den eingerichteten UBG-Administrator zugänglich.</p>
     <form id="loginForm">
-      <label for="adminEmail">E-Mail-Adresse</label>
-      <input id="adminEmail" type="email" autocomplete="username" required placeholder="Deine Supabase-Login-E-Mail">
-      <label for="adminPassword">Passwort</label>
-      <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Dein Passwort">
-      <button id="loginButton" type="submit">SICHER ANMELDEN</button>
-      <div id="adminMessage" role="status" aria-live="polite"></div>
+      <label for="adminEmail">E-Mail-Adresse</label><input id="adminEmail" type="email" autocomplete="username" required placeholder="Deine Supabase-Login-E-Mail">
+      <label for="adminPassword">Passwort</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Dein Passwort">
+      <button id="loginButton" type="submit">SICHER ANMELDEN</button><div id="adminMessage" role="status" aria-live="polite"></div>
     </form>
   </div>
   <div class="card" id="dashboardCard" hidden>
@@ -104,249 +98,285 @@ button:disabled{opacity:.55;cursor:wait}
     <button id="refreshButton" type="button" style="margin-top:12px;background:#343947">LISTE AKTUALISIEREN</button>
     <div id="submissionList" aria-live="polite"><p>Lade Einsendungen …</p></div>
     <section style="margin-top:28px;padding-top:22px;border-top:1px solid #ffffff22" aria-label="Show-Warteschlange">
-      <h2>🎚 Show-Warteschlange</h2>
-      <p>Hier erscheinen automatisch alle angenommenen Songs. Die Reihenfolge richtet sich derzeit nach dem Zeitpunkt der Einreichung (älteste zuerst).</p>
+      <h2>🎚 Show-Warteschlange</h2><p>Angenommene Songs erscheinen automatisch. Die Reihenfolge ist älteste zuerst.</p>
       <div id="queueCount" class="pill">0 SONGS IN DER QUEUE</div>
       <div id="currentQueueItem" class="submission" aria-live="polite"><p>Noch kein Song angenommen.</p></div>
-      <div class="actions">
-        <button id="previousSongButton" type="button" class="reject" disabled>← VORHERIGER SONG</button>
-        <button id="nextSongButton" type="button" disabled>NÄCHSTER SONG →</button>
-      </div>
+      <div class="actions"><button id="previousSongButton" type="button" class="reject" disabled>← VORHERIGER SONG</button><button id="nextSongButton" type="button" disabled>NÄCHSTER SONG →</button></div>
       <div id="queueList" style="margin-top:12px"></div>
     </section>
   </div>
 </section>
 </main>
 <footer>UBG NEXT LEVEL · KEIN HASS · KEIN KRIEG · KEIN STRESS</footer>
+</div>
+
+<section id="liveView" hidden aria-live="polite">
+  <div class="live-shell">
+    <div class="live-brand">UBG<span>.</span> NEXT LEVEL</div>
+    <div class="live-kicker">JETZT LIVE · AKTUELLER SHOW-SONG</div>
+    <div id="liveContent"><div class="live-empty">Die Show startet in Kürze.</div></div>
+    <div class="live-meta">UNDERDOG BATTLE GROUND</div>
+  </div>
+</section>
 
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
 const SUPABASE_URL = "https://bkanghlrqwwuipazedsu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ggl0gtzA1OFmT5h8S3M3lg_muamHZru";
 const ADMIN_USER_ID = "d15f8b29-a63a-4e73-a473-648c3e0ce69c";
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-const form = document.getElementById("submissionForm");
-const submitButton = document.getElementById("submitButton");
-const message = document.getElementById("message");
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  message.className = "";
-  message.style.display = "none";
-  const songUrl = document.getElementById("url").value.trim();
-  try {
-    const parsedUrl = new URL(songUrl);
-    if (!["http:", "https:"].includes(parsedUrl.protocol)) throw new Error("Ungültiger Link");
-  } catch {
-    message.textContent = "Bitte gib einen gültigen Link ein, der mit https:// oder http:// beginnt.";
-    message.className = "err"; return;
-  }
-  submitButton.disabled = true;
-  submitButton.textContent = "WIRD EINGEREICHT …";
-  const submission = {
-    artist_name: document.getElementById("artist").value.trim(),
-    song_title: document.getElementById("title").value.trim(),
-    platform: document.getElementById("platform").value,
-    song_url: songUrl,
-    battle_round: document.getElementById("round").value.trim() || null
-  };
-  const { error } = await supabase.from("song_submissions").insert(submission);
-  submitButton.disabled = false;
-  submitButton.textContent = "SONG EINREICHEN";
-  if (error) {
-    console.error("UBG submission error:", error);
-    message.textContent = "Die Einsendung konnte gerade nicht gespeichert werden. Bitte prüfe deine Angaben und versuche es erneut.";
-    message.className = "err"; return;
-  }
-  form.reset();
-  message.textContent = "Dein Song wurde erfolgreich eingereicht und wartet jetzt auf die Prüfung durch das UBG-Team. Danke!";
-  message.className = "ok";
-});
+const isShowPage = new URLSearchParams(location.search).get("show") === "1";
+if (isShowPage) {
+  document.title = "UBG NEXT LEVEL – Live-Show";
+  document.getElementById("normalApp").hidden = true;
+  document.getElementById("liveView").hidden = false;
+  const liveContent = document.getElementById("liveContent");
 
-const adminArea = document.getElementById("adminArea");
-const loginCard = document.getElementById("loginCard");
-const dashboardCard = document.getElementById("dashboardCard");
-const adminMessage = document.getElementById("adminMessage");
-const submissionList = document.getElementById("submissionList");
-let acceptedQueue = [];
-let currentQueueIndex = -1;
+  async function loadLiveSong() {
+    const { data: state, error: stateError } = await supabase
+      .from("show_state").select("current_submission_id").eq("id", true).maybeSingle();
 
-function showAdminMessage(text, type = "err") {
-  adminMessage.textContent = text;
-  adminMessage.className = type;
-}
-function setAdminView(user) {
-  const isAdmin = !!user && user.id === ADMIN_USER_ID;
-  loginCard.hidden = isAdmin;
-  dashboardCard.hidden = !isAdmin;
-  if (user && !isAdmin) {
-    showAdminMessage("Dieses Konto hat keinen Zugriff auf den UBG-Adminbereich.");
-  }
-  if (isAdmin) {
-    document.getElementById("adminIdentity").textContent = "Angemeldet als " + user.email;
-    loadSubmissions();
-  }
-}
-document.getElementById("openAdmin").addEventListener("click", async () => {
-  adminArea.classList.toggle("visible");
-  if (adminArea.classList.contains("visible")) {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user?.id === ADMIN_USER_ID) setAdminView(session.user);
-  }
-});
-document.getElementById("loginForm").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const loginButton = document.getElementById("loginButton");
-  loginButton.disabled = true;
-  showAdminMessage("Anmeldung wird geprüft …", "ok");
-  const email = document.getElementById("adminEmail").value.trim();
-  const password = document.getElementById("adminPassword").value;
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  loginButton.disabled = false;
-  if (error) {
-    showAdminMessage("Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.");
-    return;
-  }
-  if (data.user?.id !== ADMIN_USER_ID) {
-    await supabase.auth.signOut();
-    showAdminMessage("Dieses Konto ist nicht als UBG-Administrator freigeschaltet.");
-    return;
-  }
-  showAdminMessage("", "ok");
-  setAdminView(data.user);
-});
-async function loadSubmissions() {
-  submissionList.replaceChildren();
-  const loading = document.createElement("p");
-  loading.textContent = "Lade Einsendungen …";
-  submissionList.append(loading);
-  const { data, error } = await supabase.from("song_submissions")
-    .select("id,artist_name,song_title,platform,song_url,battle_round,status,created_at")
-    .order("created_at", { ascending: false });
-  submissionList.replaceChildren();
-  if (error) {
-    const err = document.createElement("p");
-    err.textContent = "Einsendungen konnten nicht geladen werden. Bitte Admin-Berechtigung prüfen.";
-    submissionList.append(err); return;
-  }
-  if (!data.length) {
-    const empty = document.createElement("p");
-    empty.textContent = "Noch keine Einsendungen vorhanden.";
-    submissionList.append(empty);
-  }
-  const previousCurrentId = acceptedQueue[currentQueueIndex]?.id ?? null;
-  acceptedQueue = data.filter(item => item.status === "accepted");
-  if (previousCurrentId) {
-    const preservedIndex = acceptedQueue.findIndex(item => item.id === previousCurrentId);
-    currentQueueIndex = preservedIndex >= 0 ? preservedIndex : (acceptedQueue.length ? 0 : -1);
-  } else if (currentQueueIndex < 0 && acceptedQueue.length) {
-    currentQueueIndex = 0;
-  } else if (currentQueueIndex >= acceptedQueue.length) {
-    currentQueueIndex = acceptedQueue.length - 1;
-  }
-  renderQueue();
-  for (const item of data) {
-    const card = document.createElement("article");
-    card.className = "submission";
-    const heading = document.createElement("h3");
-    heading.textContent = item.artist_name + " – " + item.song_title;
-    const status = document.createElement("span");
-    status.className = "status";
-    status.textContent = item.status;
-    const details = document.createElement("p");
-    details.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
+    if (stateError) {
+      liveContent.innerHTML = '<div class="live-empty">Live-Status konnte nicht geladen werden.</div>';
+      return;
+    }
+    if (!state?.current_submission_id) {
+      liveContent.innerHTML = '<div class="live-empty">Die Show startet in Kürze.</div>';
+      return;
+    }
+    const { data: song, error } = await supabase
+      .from("song_submissions")
+      .select("id,artist_name,song_title,platform,song_url,battle_round,status")
+      .eq("id", state.current_submission_id).eq("status", "accepted").maybeSingle();
+
+    if (error || !song) {
+      liveContent.innerHTML = '<div class="live-empty">Aktuell läuft kein freigegebener Song.</div>';
+      return;
+    }
+    liveContent.replaceChildren();
+    const artist = document.createElement("div");
+    artist.className = "live-artist";
+    artist.textContent = song.artist_name;
+    const title = document.createElement("p");
+    title.className = "live-title";
+    title.textContent = song.song_title;
+    const detail = document.createElement("div");
+    detail.className = "live-meta";
+    detail.textContent = song.platform + (song.battle_round ? " · " + song.battle_round : "");
     const link = document.createElement("a");
-    link.href = item.song_url;
+    link.className = "live-link";
+    link.href = song.song_url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    link.textContent = "Song öffnen";
-    link.style.color = "#d8ad55";
-    const date = document.createElement("p");
-    date.textContent = "Eingereicht: " + new Date(item.created_at).toLocaleString("de-DE");
-    card.append(heading, status, details, link, date);
-    const actions = document.createElement("div");
-    actions.className = "actions";
-    for (const [label, value, className] of [["ANNEHMEN","accepted",""],["ABLEHNEN","rejected","reject"],["ZURÜCK AUF PRÜFUNG","pending","reject"]]) {
-      const action = document.createElement("button");
-      action.type = "button";
-      action.className = className;
-      action.textContent = label;
-      action.addEventListener("click", async () => {
-        action.disabled = true;
-        const { error: updateError } = await supabase.from("song_submissions").update({ status: value }).eq("id", item.id);
-        if (updateError) {
-          action.disabled = false;
-          alert("Status konnte nicht geändert werden. Bitte erneut versuchen.");
-          return;
-        }
-        await loadSubmissions();
-      });
-      actions.append(action);
+    link.textContent = "SONG ÖFFNEN";
+    liveContent.append(artist, title, detail, link);
+  }
+  loadLiveSong();
+  setInterval(loadLiveSong, 3000);
+} else {
+  const form = document.getElementById("submissionForm");
+  const submitButton = document.getElementById("submitButton");
+  const message = document.getElementById("message");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    message.className = ""; message.style.display = "none";
+    const songUrl = document.getElementById("url").value.trim();
+    try {
+      const parsedUrl = new URL(songUrl);
+      if (!["http:", "https:"].includes(parsedUrl.protocol)) throw new Error("Ungültiger Link");
+    } catch {
+      message.textContent = "Bitte gib einen gültigen Link ein, der mit https:// oder http:// beginnt.";
+      message.className = "err"; return;
     }
-    card.append(actions);
-    submissionList.append(card);
-  }
-}
-
-function renderQueue() {
-  const currentBox = document.getElementById("currentQueueItem");
-  const queueList = document.getElementById("queueList");
-  document.getElementById("queueCount").textContent = acceptedQueue.length + (acceptedQueue.length === 1 ? " SONG IN DER QUEUE" : " SONGS IN DER QUEUE");
-  currentBox.replaceChildren();
-  queueList.replaceChildren();
-  if (!acceptedQueue.length) {
-    const empty = document.createElement("p");
-    empty.textContent = "Noch kein Song angenommen. Nimm oben eine Einsendung an, um sie hier einzureihen.";
-    currentBox.append(empty);
-  } else {
-    const item = acceptedQueue[currentQueueIndex];
-    const label = document.createElement("div");
-    label.className = "eyebrow";
-    label.textContent = "JETZT IN DER SHOW · " + (currentQueueIndex + 1) + " / " + acceptedQueue.length;
-    const title = document.createElement("h3");
-    title.textContent = item.artist_name + " – " + item.song_title;
-    const detail = document.createElement("p");
-    detail.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
-    const link = document.createElement("a");
-    link.href = item.song_url; link.target = "_blank"; link.rel = "noopener noreferrer";
-    link.textContent = "AKTUELLEN SONG ÖFFNEN"; link.style.color = "#d8ad55";
-    currentBox.append(label, title, detail, link);
-  }
-  acceptedQueue.forEach((item, index) => {
-    const row = document.createElement("div");
-    row.className = "submission";
-    row.style.borderColor = index === currentQueueIndex ? "#d8ad55" : "#ffffff20";
-    const title = document.createElement("strong");
-    title.textContent = (index + 1) + ". " + item.artist_name + " – " + item.song_title;
-    const meta = document.createElement("p");
-    meta.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
-    row.append(title, meta);
-    queueList.append(row);
+    submitButton.disabled = true; submitButton.textContent = "WIRD EINGEREICHT …";
+    const submission = {
+      artist_name: document.getElementById("artist").value.trim(),
+      song_title: document.getElementById("title").value.trim(),
+      platform: document.getElementById("platform").value,
+      song_url: songUrl,
+      battle_round: document.getElementById("round").value.trim() || null
+    };
+    const { error } = await supabase.from("song_submissions").insert(submission);
+    submitButton.disabled = false; submitButton.textContent = "SONG EINREICHEN";
+    if (error) {
+      console.error("UBG submission error:", error);
+      message.textContent = "Die Einsendung konnte gerade nicht gespeichert werden. Bitte prüfe deine Angaben und versuche es erneut.";
+      message.className = "err"; return;
+    }
+    form.reset();
+    message.textContent = "Dein Song wurde erfolgreich eingereicht und wartet jetzt auf die Prüfung durch das UBG-Team. Danke!";
+    message.className = "ok";
   });
-  document.getElementById("previousSongButton").disabled = currentQueueIndex <= 0;
-  document.getElementById("nextSongButton").disabled = currentQueueIndex < 0 || currentQueueIndex >= acceptedQueue.length - 1;
-}
-document.getElementById("previousSongButton").addEventListener("click", () => {
-  if (currentQueueIndex > 0) { currentQueueIndex--; renderQueue(); }
-});
-document.getElementById("nextSongButton").addEventListener("click", () => {
-  if (currentQueueIndex < acceptedQueue.length - 1) { currentQueueIndex++; renderQueue(); }
-});
 
-document.getElementById("refreshButton").addEventListener("click", loadSubmissions);
-document.getElementById("logoutButton").addEventListener("click", async () => {
-  await supabase.auth.signOut();
-  dashboardCard.hidden = true;
-  loginCard.hidden = false;
-  document.getElementById("loginForm").reset();
-  showAdminMessage("Du wurdest abgemeldet.", "ok");
-});
-supabase.auth.onAuthStateChange((_event, session) => {
-  if (adminArea.classList.contains("visible")) setAdminView(session?.user ?? null);
-});
+  const adminArea = document.getElementById("adminArea");
+  const loginCard = document.getElementById("loginCard");
+  const dashboardCard = document.getElementById("dashboardCard");
+  const adminMessage = document.getElementById("adminMessage");
+  const submissionList = document.getElementById("submissionList");
+  let acceptedQueue = [];
+  let currentQueueIndex = -1;
+
+  function showAdminMessage(text, type = "err") {
+    adminMessage.textContent = text;
+    adminMessage.className = type;
+  }
+  async function saveCurrentSong() {
+    const current = acceptedQueue[currentQueueIndex];
+    const { error } = await supabase.from("show_state")
+      .update({ current_submission_id: current?.id ?? null, updated_at: new Date().toISOString() })
+      .eq("id", true);
+    if (error) {
+      alert("Der aktuelle Song konnte nicht mit der OBS-Anzeige synchronisiert werden. Bitte Datenbankrechte prüfen.");
+    }
+  }
+  function setAdminView(user) {
+    const isAdmin = !!user && user.id === ADMIN_USER_ID;
+    loginCard.hidden = isAdmin;
+    dashboardCard.hidden = !isAdmin;
+    if (user && !isAdmin) showAdminMessage("Dieses Konto hat keinen Zugriff auf den UBG-Adminbereich.");
+    if (isAdmin) {
+      document.getElementById("adminIdentity").textContent = "Angemeldet als " + user.email;
+      loadSubmissions();
+    }
+  }
+  document.getElementById("openAdmin").addEventListener("click", async () => {
+    adminArea.classList.toggle("visible");
+    if (adminArea.classList.contains("visible")) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.id === ADMIN_USER_ID) setAdminView(session.user);
+    }
+  });
+  document.getElementById("loginForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const loginButton = document.getElementById("loginButton");
+    loginButton.disabled = true;
+    showAdminMessage("Anmeldung wird geprüft …", "ok");
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    loginButton.disabled = false;
+    if (error) { showAdminMessage("Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen."); return; }
+    if (data.user?.id !== ADMIN_USER_ID) {
+      await supabase.auth.signOut();
+      showAdminMessage("Dieses Konto ist nicht als UBG-Administrator freigeschaltet.");
+      return;
+    }
+    showAdminMessage("", "ok");
+    setAdminView(data.user);
+  });
+
+  async function loadSubmissions() {
+    submissionList.replaceChildren();
+    const loading = document.createElement("p");
+    loading.textContent = "Lade Einsendungen …";
+    submissionList.append(loading);
+    const { data, error } = await supabase.from("song_submissions")
+      .select("id,artist_name,song_title,platform,song_url,battle_round,status,created_at")
+      .order("created_at", { ascending: true });
+    submissionList.replaceChildren();
+    if (error) {
+      const err = document.createElement("p");
+      err.textContent = "Einsendungen konnten nicht geladen werden. Bitte Admin-Berechtigung prüfen.";
+      submissionList.append(err); return;
+    }
+    const previousCurrentId = acceptedQueue[currentQueueIndex]?.id ?? null;
+    acceptedQueue = data.filter(item => item.status === "accepted");
+    if (previousCurrentId) {
+      const preservedIndex = acceptedQueue.findIndex(item => item.id === previousCurrentId);
+      currentQueueIndex = preservedIndex >= 0 ? preservedIndex : (acceptedQueue.length ? 0 : -1);
+    } else {
+      const { data: state } = await supabase.from("show_state")
+        .select("current_submission_id").eq("id", true).maybeSingle();
+      const savedIndex = acceptedQueue.findIndex(item => item.id === state?.current_submission_id);
+      currentQueueIndex = savedIndex >= 0 ? savedIndex : (acceptedQueue.length ? 0 : -1);
+    }
+    renderQueue();
+    if (!data.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "Noch keine Einsendungen vorhanden.";
+      submissionList.append(empty);
+    }
+    for (const item of data) {
+      const card = document.createElement("article");
+      card.className = "submission";
+      const heading = document.createElement("h3");
+      heading.textContent = item.artist_name + " – " + item.song_title;
+      const status = document.createElement("span");
+      status.className = "status"; status.textContent = item.status;
+      const details = document.createElement("p");
+      details.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
+      const link = document.createElement("a");
+      link.href = item.song_url; link.target = "_blank"; link.rel = "noopener noreferrer";
+      link.textContent = "Song öffnen"; link.style.color = "#d8ad55";
+      const date = document.createElement("p");
+      date.textContent = "Eingereicht: " + new Date(item.created_at).toLocaleString("de-DE");
+      card.append(heading, status, details, link, date);
+      const actions = document.createElement("div"); actions.className = "actions";
+      for (const [label, value, className] of [["ANNEHMEN","accepted",""],["ABLEHNEN","rejected","reject"],["ZURÜCK AUF PRÜFUNG","pending","reject"]]) {
+        const action = document.createElement("button");
+        action.type = "button"; action.className = className; action.textContent = label;
+        action.addEventListener("click", async () => {
+          action.disabled = true;
+          const { error: updateError } = await supabase.from("song_submissions").update({ status: value }).eq("id", item.id);
+          if (updateError) { action.disabled = false; alert("Status konnte nicht geändert werden. Bitte erneut versuchen."); return; }
+          await loadSubmissions();
+        });
+        actions.append(action);
+      }
+      card.append(actions); submissionList.append(card);
+    }
+  }
+  function renderQueue() {
+    const currentBox = document.getElementById("currentQueueItem");
+    const queueList = document.getElementById("queueList");
+    document.getElementById("queueCount").textContent = acceptedQueue.length + (acceptedQueue.length === 1 ? " SONG IN DER QUEUE" : " SONGS IN DER QUEUE");
+    currentBox.replaceChildren(); queueList.replaceChildren();
+    if (!acceptedQueue.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "Noch kein Song angenommen. Nimm oben eine Einsendung an, um sie hier einzureihen.";
+      currentBox.append(empty);
+    } else {
+      const item = acceptedQueue[currentQueueIndex];
+      const label = document.createElement("div");
+      label.className = "eyebrow"; label.textContent = "JETZT IN DER SHOW · " + (currentQueueIndex + 1) + " / " + acceptedQueue.length;
+      const title = document.createElement("h3"); title.textContent = item.artist_name + " – " + item.song_title;
+      const detail = document.createElement("p"); detail.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
+      const link = document.createElement("a");
+      link.href = item.song_url; link.target = "_blank"; link.rel = "noopener noreferrer";
+      link.textContent = "AKTUELLEN SONG ÖFFNEN"; link.style.color = "#d8ad55";
+      currentBox.append(label, title, detail, link);
+    }
+    acceptedQueue.forEach((item, index) => {
+      const row = document.createElement("div"); row.className = "submission";
+      row.style.borderColor = index === currentQueueIndex ? "#d8ad55" : "#ffffff20";
+      const title = document.createElement("strong"); title.textContent = (index + 1) + ". " + item.artist_name + " – " + item.song_title;
+      const meta = document.createElement("p"); meta.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
+      row.append(title, meta); queueList.append(row);
+    });
+    document.getElementById("previousSongButton").disabled = currentQueueIndex <= 0;
+    document.getElementById("nextSongButton").disabled = currentQueueIndex < 0 || currentQueueIndex >= acceptedQueue.length - 1;
+  }
+  document.getElementById("previousSongButton").addEventListener("click", async () => {
+    if (currentQueueIndex > 0) { currentQueueIndex--; renderQueue(); await saveCurrentSong(); }
+  });
+  document.getElementById("nextSongButton").addEventListener("click", async () => {
+    if (currentQueueIndex < acceptedQueue.length - 1) { currentQueueIndex++; renderQueue(); await saveCurrentSong(); }
+  });
+  document.getElementById("refreshButton").addEventListener("click", loadSubmissions);
+  document.getElementById("logoutButton").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    dashboardCard.hidden = true; loginCard.hidden = false;
+    document.getElementById("loginForm").reset();
+    showAdminMessage("Du wurdest abgemeldet.", "ok");
+  });
+  supabase.auth.onAuthStateChange((_event, session) => {
+    if (adminArea.classList.contains("visible")) setAdminView(session?.user ?? null);
+  });
+}
 </script>
 </body>
 </html>
+
 
 
