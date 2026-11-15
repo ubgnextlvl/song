@@ -18,7 +18,7 @@ h1 span{color:var(--red);text-shadow:0 0 35px #e3263655}
 .sub{color:var(--muted);font-size:17px;line-height:1.6;max-width:650px;margin:auto}
 .pill{display:inline-block;border:1px solid #e3263666;color:#ff6874;padding:7px 12px;border-radius:30px;font-size:11px;letter-spacing:2px;font-weight:bold}
 .layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr);gap:18px;align-items:start}
-.card{background:linear-gradient(145deg,#1a1e29,#101219);border:1px solid #ffffff18;border-radius:16px;padding:25px}
+.card{background:linear-gradient(145deg,#1a1e29,#101219);border:1px solid #ffffff18;border-radius:16px;padding:25px;margin-bottom:20px}
 .card h2{margin:0 0 10px;font-size:21px}.card p,.card li{color:var(--muted);line-height:1.6;font-size:14px}
 label{display:block;font-size:13px;font-weight:bold;margin:16px 0 7px;color:#e8eaf0}
 input,select{width:100%;padding:13px 14px;border-radius:9px;border:1px solid #ffffff25;background:#0b0d13;color:#fff;font-size:15px;outline:none}
@@ -27,57 +27,83 @@ input:focus,select:focus{border-color:var(--gold)}
 .check input{width:auto;margin-top:2px}
 button{border:0;border-radius:9px;padding:14px 20px;background:var(--red);color:white;font-weight:900;letter-spacing:1px;cursor:pointer;width:100%;font-size:14px}
 button:disabled{opacity:.55;cursor:wait}
-#message{margin-top:14px;padding:12px;border-radius:9px;display:none;line-height:1.5;font-size:14px}
-#message.ok{display:block;background:#173b2b;color:#a9f0c8;border:1px solid #2a8054}
-#message.err{display:block;background:#401c22;color:#ffc0c6;border:1px solid #9d3b49}
-footer{text-align:center;color:#737987;font-size:12px;padding:30px;border-top:1px solid #ffffff18;letter-spacing:1px;margin-top:35px}
-@media(max-width:760px){.layout{grid-template-columns:1fr}main{padding-top:30px}}
+#message,#adminMessage{margin-top:14px;padding:12px;border-radius:9px;display:none;line-height:1.5;font-size:14px}
+#message.ok,#adminMessage.ok{display:block;background:#173b2b;color:#a9f0c8;border:1px solid #2a8054}
+#message.err,#adminMessage.err{display:block;background:#401c22;color:#ffc0c6;border:1px solid #9d3b49}
+.admin-link{width:auto;padding:10px 14px;background:#242936;border:1px solid #ffffff25}
+.admin-area{display:none;margin-top:38px}
+.admin-area.visible{display:block}
+.admin-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.admin-top button{width:auto}
+.submission{border:1px solid #ffffff20;border-radius:12px;padding:16px;margin-top:12px;background:#0c0f16}
+.submission h3{margin:0 0 8px;font-size:17px}
+.submission p{margin:5px 0;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.actions button{width:auto;flex:1;min-width:130px;padding:11px}
+.actions .reject{background:#555b68}
+.status{display:inline-block;padding:4px 9px;border-radius:20px;background:#343947;color:#eee;font-size:11px;text-transform:uppercase}
+@media(max-width:760px){.layout{grid-template-columns:1fr}main{padding-top:30px}.admin-top{align-items:stretch}.admin-top button{width:100%}}
 </style>
 </head>
 <body>
-<header><div class="brand">UBG<span>.</span> NEXT LEVEL</div><div class="tag">Underdog Battle Ground</div></header>
+<header>
+  <div><div class="brand">UBG<span>.</span> NEXT LEVEL</div><div class="tag">Underdog Battle Ground</div></div>
+  <button class="admin-link" id="openAdmin" type="button">ADMIN-LOGIN</button>
+</header>
 <main>
 <section class="hero">
-<div class="eyebrow">DIE BÜHNE GEHÖRT EUCH</div>
-<h1>UBG <span>NEXT</span><br>LEVEL</h1>
-<p class="sub">Reiche deinen Song für die UBG-Show ein. Unser Team prüft deine Einsendung und meldet sich bei dir.</p>
-<p style="margin-top:24px"><span class="pill">OFFIZIELLE SONG-EINREICHUNG</span></p>
+  <div class="eyebrow">DIE BÜHNE GEHÖRT EUCH</div>
+  <h1>UBG <span>NEXT</span><br>LEVEL</h1>
+  <p class="sub">Reiche deinen Song für die UBG-Show ein. Unser Team prüft deine Einsendung und meldet sich bei dir.</p>
+  <p style="margin-top:24px"><span class="pill">OFFIZIELLE SONG-EINREICHUNG</span></p>
 </section>
 <section class="layout">
-<div class="card">
-<h2>🎤 Song einreichen</h2>
-<p>Fülle alle Pflichtfelder aus. Dein Song wird zunächst zur Prüfung eingereicht.</p>
-<form id="submissionForm">
-<label for="artist">Künstlername *</label>
-<input id="artist" name="artist" maxlength="80" required placeholder="Dein Künstlername">
-<label for="title">Songtitel *</label>
-<input id="title" name="title" maxlength="120" required placeholder="Titel deines Songs">
-<label for="platform">Plattform *</label>
-<select id="platform" name="platform" required>
-<option value="">Bitte auswählen</option>
-<option value="Suno">Suno</option>
-<option value="YouTube">YouTube</option>
-<option value="Spotify">Spotify</option>
-</select>
-<label for="url">Song-Link *</label>
-<input id="url" name="url" type="url" required placeholder="https://...">
-<label for="round">Battle / Runde (optional)</label>
-<input id="round" name="round" maxlength="100" placeholder="z. B. UBG Next Level – Runde 1">
-<label class="check"><input id="rules" type="checkbox" required><span>Ich bestätige, dass ich den eingereichten Song teilen darf und die UBG-Regeln akzeptiere: kein Hass, kein Krieg, kein Stress. *</span></label>
-<button id="submitButton" type="submit">SONG EINREICHEN</button>
-<div id="message" role="status" aria-live="polite"></div>
-</form>
-</div>
-<aside class="card">
-<h2>⚡ So funktioniert's</h2>
-<ol>
-<li>Song-Link und Angaben eintragen.</li>
-<li>Auf „Song einreichen“ klicken.</li>
-<li>Deine Einsendung landet zunächst in der Prüfung.</li>
-<li>Nach Freigabe kann dein Song in der Show erscheinen.</li>
-</ol>
-<p><strong>Hinweis:</strong> Eine Einreichung bedeutet noch keine automatische Teilnahme. Das UBG-Team entscheidet über die Freigabe.</p>
-</aside>
+  <div class="card">
+    <h2>🎤 Song einreichen</h2>
+    <p>Fülle alle Pflichtfelder aus. Dein Song wird zunächst zur Prüfung eingereicht.</p>
+    <form id="submissionForm">
+      <label for="artist">Künstlername *</label>
+      <input id="artist" name="artist" maxlength="80" required placeholder="Dein Künstlername">
+      <label for="title">Songtitel *</label>
+      <input id="title" name="title" maxlength="120" required placeholder="Titel deines Songs">
+      <label for="platform">Plattform *</label>
+      <select id="platform" name="platform" required>
+        <option value="">Bitte auswählen</option><option value="Suno">Suno</option><option value="YouTube">YouTube</option><option value="Spotify">Spotify</option>
+      </select>
+      <label for="url">Song-Link *</label>
+      <input id="url" name="url" type="url" required placeholder="https://...">
+      <label for="round">Battle / Runde (optional)</label>
+      <input id="round" name="round" maxlength="100" placeholder="z. B. UBG Next Level – Runde 1">
+      <label class="check"><input id="rules" type="checkbox" required><span>Ich bestätige, dass ich den eingereichten Song teilen darf und die UBG-Regeln akzeptiere: kein Hass, kein Krieg, kein Stress. *</span></label>
+      <button id="submitButton" type="submit">SONG EINREICHEN</button>
+      <div id="message" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+  <aside class="card">
+    <h2>⚡ So funktioniert's</h2>
+    <ol><li>Song-Link und Angaben eintragen.</li><li>Auf „Song einreichen“ klicken.</li><li>Deine Einsendung landet zunächst in der Prüfung.</li><li>Nach Freigabe kann dein Song in der Show erscheinen.</li></ol>
+    <p><strong>Hinweis:</strong> Eine Einreichung bedeutet noch keine automatische Teilnahme. Das UBG-Team entscheidet über die Freigabe.</p>
+  </aside>
+</section>
+
+<section class="admin-area" id="adminArea">
+  <div class="card" id="loginCard">
+    <h2>🔐 UBG Admin-Login</h2>
+    <p>Dieser Bereich ist nur für den eingerichteten UBG-Administrator zugänglich.</p>
+    <form id="loginForm">
+      <label for="adminEmail">E-Mail-Adresse</label>
+      <input id="adminEmail" type="email" autocomplete="username" required placeholder="Deine Supabase-Login-E-Mail">
+      <label for="adminPassword">Passwort</label>
+      <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Dein Passwort">
+      <button id="loginButton" type="submit">SICHER ANMELDEN</button>
+      <div id="adminMessage" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+  <div class="card" id="dashboardCard" hidden>
+    <div class="admin-top"><div><h2>📋 Einsendungen verwalten</h2><p id="adminIdentity"></p></div><button id="logoutButton" type="button">ABMELDEN</button></div>
+    <button id="refreshButton" type="button" style="margin-top:12px;background:#343947">LISTE AKTUALISIEREN</button>
+    <div id="submissionList" aria-live="polite"><p>Lade Einsendungen …</p></div>
+  </div>
 </section>
 </main>
 <footer>UBG NEXT LEVEL · KEIN HASS · KEIN KRIEG · KEIN STRESS</footer>
@@ -87,30 +113,26 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const SUPABASE_URL = "https://bkanghlrqwwuipazedsu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ggl0gtzA1OFmT5h8S3M3lg_muamHZru";
+const ADMIN_USER_ID = "d15f8b29-a63a-4e73-a473-648c3e0ce69c";
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 const form = document.getElementById("submissionForm");
-const button = document.getElementById("submitButton");
+const submitButton = document.getElementById("submitButton");
 const message = document.getElementById("message");
-
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   message.className = "";
   message.style.display = "none";
-
   const songUrl = document.getElementById("url").value.trim();
   try {
     const parsedUrl = new URL(songUrl);
     if (!["http:", "https:"].includes(parsedUrl.protocol)) throw new Error("Ungültiger Link");
   } catch {
     message.textContent = "Bitte gib einen gültigen Link ein, der mit https:// oder http:// beginnt.";
-    message.className = "err";
-    return;
+    message.className = "err"; return;
   }
-
-  button.disabled = true;
-  button.textContent = "WIRD EINGEREICHT …";
-
+  submitButton.disabled = true;
+  submitButton.textContent = "WIRD EINGEREICHT …";
   const submission = {
     artist_name: document.getElementById("artist").value.trim(),
     song_title: document.getElementById("title").value.trim(),
@@ -118,25 +140,142 @@ form.addEventListener("submit", async (event) => {
     song_url: songUrl,
     battle_round: document.getElementById("round").value.trim() || null
   };
-
   const { error } = await supabase.from("song_submissions").insert(submission);
-
-  button.disabled = false;
-  button.textContent = "SONG EINREICHEN";
-
+  submitButton.disabled = false;
+  submitButton.textContent = "SONG EINREICHEN";
   if (error) {
     console.error("UBG submission error:", error);
     message.textContent = "Die Einsendung konnte gerade nicht gespeichert werden. Bitte prüfe deine Angaben und versuche es erneut.";
-    message.className = "err";
-    return;
+    message.className = "err"; return;
   }
-
   form.reset();
   message.textContent = "Dein Song wurde erfolgreich eingereicht und wartet jetzt auf die Prüfung durch das UBG-Team. Danke!";
   message.className = "ok";
+});
+
+const adminArea = document.getElementById("adminArea");
+const loginCard = document.getElementById("loginCard");
+const dashboardCard = document.getElementById("dashboardCard");
+const adminMessage = document.getElementById("adminMessage");
+const submissionList = document.getElementById("submissionList");
+
+function showAdminMessage(text, type = "err") {
+  adminMessage.textContent = text;
+  adminMessage.className = type;
+}
+function setAdminView(user) {
+  const isAdmin = !!user && user.id === ADMIN_USER_ID;
+  loginCard.hidden = isAdmin;
+  dashboardCard.hidden = !isAdmin;
+  if (user && !isAdmin) {
+    showAdminMessage("Dieses Konto hat keinen Zugriff auf den UBG-Adminbereich.");
+  }
+  if (isAdmin) {
+    document.getElementById("adminIdentity").textContent = "Angemeldet als " + user.email;
+    loadSubmissions();
+  }
+}
+document.getElementById("openAdmin").addEventListener("click", async () => {
+  adminArea.classList.toggle("visible");
+  if (adminArea.classList.contains("visible")) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user?.id === ADMIN_USER_ID) setAdminView(session.user);
+  }
+});
+document.getElementById("loginForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const loginButton = document.getElementById("loginButton");
+  loginButton.disabled = true;
+  showAdminMessage("Anmeldung wird geprüft …", "ok");
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  loginButton.disabled = false;
+  if (error) {
+    showAdminMessage("Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.");
+    return;
+  }
+  if (data.user?.id !== ADMIN_USER_ID) {
+    await supabase.auth.signOut();
+    showAdminMessage("Dieses Konto ist nicht als UBG-Administrator freigeschaltet.");
+    return;
+  }
+  showAdminMessage("", "ok");
+  setAdminView(data.user);
+});
+async function loadSubmissions() {
+  submissionList.replaceChildren();
+  const loading = document.createElement("p");
+  loading.textContent = "Lade Einsendungen …";
+  submissionList.append(loading);
+  const { data, error } = await supabase.from("song_submissions")
+    .select("id,artist_name,song_title,platform,song_url,battle_round,status,created_at")
+    .order("created_at", { ascending: false });
+  submissionList.replaceChildren();
+  if (error) {
+    const err = document.createElement("p");
+    err.textContent = "Einsendungen konnten nicht geladen werden. Bitte Admin-Berechtigung prüfen.";
+    submissionList.append(err); return;
+  }
+  if (!data.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "Noch keine Einsendungen vorhanden.";
+    submissionList.append(empty); return;
+  }
+  for (const item of data) {
+    const card = document.createElement("article");
+    card.className = "submission";
+    const heading = document.createElement("h3");
+    heading.textContent = item.artist_name + " – " + item.song_title;
+    const status = document.createElement("span");
+    status.className = "status";
+    status.textContent = item.status;
+    const details = document.createElement("p");
+    details.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
+    const link = document.createElement("a");
+    link.href = item.song_url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "Song öffnen";
+    link.style.color = "#d8ad55";
+    const date = document.createElement("p");
+    date.textContent = "Eingereicht: " + new Date(item.created_at).toLocaleString("de-DE");
+    card.append(heading, status, details, link, date);
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    for (const [label, value, className] of [["ANNEHMEN","accepted",""],["ABLEHNEN","rejected","reject"],["ZURÜCK AUF PRÜFUNG","pending","reject"]]) {
+      const action = document.createElement("button");
+      action.type = "button";
+      action.className = className;
+      action.textContent = label;
+      action.addEventListener("click", async () => {
+        action.disabled = true;
+        const { error: updateError } = await supabase.from("song_submissions").update({ status: value }).eq("id", item.id);
+        if (updateError) {
+          action.disabled = false;
+          alert("Status konnte nicht geändert werden. Bitte erneut versuchen.");
+          return;
+        }
+        await loadSubmissions();
+      });
+      actions.append(action);
+    }
+    card.append(actions);
+    submissionList.append(card);
+  }
+}
+document.getElementById("refreshButton").addEventListener("click", loadSubmissions);
+document.getElementById("logoutButton").addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  dashboardCard.hidden = true;
+  loginCard.hidden = false;
+  document.getElementById("loginForm").reset();
+  showAdminMessage("Du wurdest abgemeldet.", "ok");
+});
+supabase.auth.onAuthStateChange((_event, session) => {
+  if (adminArea.classList.contains("visible")) setAdminView(session?.user ?? null);
 });
 </script>
 </body>
 </html>
 
-</html>
