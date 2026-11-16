@@ -480,6 +480,47 @@ message.style.display = "block";
       link.textContent = "AKTUELLEN SONG ÖFFNEN"; link.style.color = "#d8ad55";
       currentBox.append(label, title, detail, link);
     }
+      const decisionArea = document.createElement("div");
+      decisionArea.className = "actions";
+      decisionArea.style.marginTop = "20px";
+
+      const decisionMessage = document.createElement("p");
+      decisionMessage.textContent = item.round_decision
+        ? "Aktuelle Entscheidung: " + item.round_decision.toUpperCase().replace("_", " ")
+        : "Noch keine Entscheidung getroffen.";
+
+      async function saveDecision(decision) {
+        const { error } = await supabase
+          .from("song_submissions")
+          .update({ round_decision: decision })
+          .eq("id", item.id);
+
+        if (error) {
+          alert("Entscheidung konnte nicht gespeichert werden.");
+          console.error(error);
+          return;
+        }
+
+        item.round_decision = decision;
+        decisionMessage.textContent =
+          "Entscheidung gespeichert: " + decision.toUpperCase().replace("_", " ");
+      }
+
+      const weiterButton = document.createElement("button");
+      weiterButton.type = "button";
+      weiterButton.textContent = "✓ WEITER";
+      weiterButton.style.background = "#176b42";
+      weiterButton.addEventListener("click", () => saveDecision("weiter"));
+
+      const rausButton = document.createElement("button");
+      rausButton.type = "button";
+      rausButton.textContent = "✕ NICHT WEITER";
+      rausButton.style.background = "#a52232";
+      rausButton.addEventListener("click", () => saveDecision("nicht_weiter"));
+
+      decisionArea.append(weiterButton, rausButton);
+      currentBox.append(decisionMessage, decisionArea);
+
     acceptedQueue.forEach((item, index) => {
       const row = document.createElement("div"); row.className = "submission";
       row.style.borderColor = index === currentQueueIndex ? "#d8ad55" : "#ffffff20";
