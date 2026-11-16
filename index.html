@@ -48,6 +48,121 @@ footer{text-align:center;color:#737987;padding:25px;font-size:11px;letter-spacin
 .live-link{display:inline-block;margin-top:34px;padding:15px 24px;background:var(--red);border-radius:9px;color:white;text-decoration:none;font-weight:900;letter-spacing:1px}
 .live-empty{color:var(--muted);font-size:clamp(18px,3vw,30px);margin-top:35px}
 @media(max-width:760px){.layout{grid-template-columns:1fr}main{padding-top:30px}.admin-top{align-items:stretch}.admin-top button{width:100%}}
+
+/* UBG NEXT LEVEL – TV SHOW DESIGN */
+#liveView {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 110%, #4b101b66, transparent 48%),
+    radial-gradient(ellipse at 50% -10%, #9a702b33, transparent 42%),
+    #08090e;
+}
+
+#liveView:before {
+  content: "";
+  position: fixed;
+  inset: -30%;
+  pointer-events: none;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 30%,
+    #e3263618 38%,
+    transparent 46% 65%,
+    #d8ad5514 72%,
+    transparent 80%
+  );
+  animation: stageSpin 28s linear infinite;
+}
+
+.live-shell {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #d8ad55aa;
+  background: linear-gradient(135deg, #171923f5, #0b0c12f7 55%, #241018f5);
+  box-shadow: 0 0 55px #e3263630, 0 24px 90px #000b;
+}
+
+.live-shell:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #8c1422, #e32636, #d8ad55, #e32636, #8c1422);
+  background-size: 200% 100%;
+  animation: goldSweep 5s linear infinite;
+}
+
+.live-brand {
+  text-shadow: 0 0 24px #e3263655;
+}
+
+.live-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border: 1px solid #d8ad5570;
+  border-radius: 30px;
+  background: #d8ad5510;
+}
+
+.live-kicker:before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ef3447;
+  box-shadow: 0 0 12px #ef3447;
+  animation: livePulse 1.3s ease-in-out infinite;
+}
+
+.live-artist {
+  line-height: 1.04;
+  text-transform: uppercase;
+  text-shadow: 0 5px 30px #000, 0 0 35px #e3263622;
+  animation: titleRise .7s ease-out both;
+}
+
+.live-title {
+  font-weight: 800;
+  text-shadow: 0 3px 20px #000;
+}
+
+.live-meta {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@keyframes stageSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes goldSweep {
+  to { background-position: 200% 0; }
+}
+
+@keyframes livePulse {
+  50% { opacity: .35; }
+}
+
+@keyframes titleRise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #liveView:before,
+  .live-shell:before,
+  .live-kicker:before,
+  .live-artist {
+    animation: none;
+  }
+}
 </style>
 </head>
 <body>
