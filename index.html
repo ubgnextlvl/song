@@ -338,7 +338,8 @@ if (isShowPage) {
     }
     form.reset();
     message.textContent = "Dein Song wurde erfolgreich eingereicht und wartet jetzt auf die Prüfung durch das UBG-Team. Danke!";
-    message.className = "ok";
+message.className = "ok";
+message.style.display = "block";
   });
 
   const adminArea = document.getElementById("adminArea");
