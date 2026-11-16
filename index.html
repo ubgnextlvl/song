@@ -230,7 +230,16 @@ footer{text-align:center;color:#737987;padding:25px;font-size:11px;letter-spacin
     <button id="refreshButton" type="button" style="margin-top:12px;background:#343947">LISTE AKTUALISIEREN</button>
     <div id="submissionList" aria-live="polite"><p>Lade Einsendungen …</p></div>
     <section style="margin-top:28px;padding-top:22px;border-top:1px solid #ffffff22" aria-label="Show-Warteschlange">
-      <h2>🎚 Show-Warteschlange</h2><p>Angenommene Songs erscheinen automatisch. Die Reihenfolge ist älteste zuerst.</p>
+      <h2>🎚 Show-Warteschlange</h2><p><div style="margin:18px 0;">
+  <label for="currentRoundSelect">AKTUELLE SHOW-RUNDE</label>
+  <select id="currentRoundSelect">
+    <option value="Runde 1">RUNDE 1</option>
+    <option value="Viertelfinale">VIERTELFINALE</option>
+    <option value="Halbfinale">HALBFINALE</option>
+    <option value="Finale">FINALE</option>
+  </select>
+</div>
+      </p>Angenommene Songs erscheinen automatisch. Die Reihenfolge ist älteste zuerst.</p>
       <div id="queueCount" class="pill">0 SONGS IN DER QUEUE</div>
       <div id="currentQueueItem" class="submission" aria-live="polite"><p>Noch kein Song angenommen.</p></div>
       <div class="actions"><button id="previousSongButton" type="button" class="reject" disabled>← VORHERIGER SONG</button><button id="nextSongButton" type="button" disabled>NÄCHSTER SONG →</button></div>
@@ -400,6 +409,17 @@ message.style.display = "block";
   });
 
   async function loadSubmissions() {
+  const roundSelect = document.getElementById("currentRoundSelect");
+
+const { data: showState, error: roundError } = await supabase
+  .from("show_state")
+  .select("current_round")
+  .eq("id", true)
+  .maybeSingle();
+
+if (!roundError && showState?.current_round && roundSelect) {
+  roundSelect.value = showState.current_round;
+}
     submissionList.replaceChildren();
     const loading = document.createElement("p");
     loading.textContent = "Lade Einsendungen …";
@@ -415,6 +435,21 @@ message.style.display = "block";
     }
     const previousCurrentId = acceptedQueue[currentQueueIndex]?.id ?? null;
     acceptedQueue = data.filter(item => item.status === "accepted");
+    const { data: roundDecisions, error: decisionsError } = await supabase
+  .from("song_round_decisions")
+  .select("submission_id,decision")
+  .eq("round_name", roundSelect.value);
+
+if (decisionsError) {
+  console.error("Rundenentscheidungen konnten nicht geladen werden:", decisionsError);
+}
+
+acceptedQueue.forEach(item => {
+  const savedDecision = roundDecisions?.find(
+    entry => entry.submission_id === item.id
+  );
+  item.round_decision = savedDecision?.decision ?? null;
+});
     if (previousCurrentId) {
       const preservedIndex = acceptedQueue.findIndex(item => item.id === previousCurrentId);
       currentQueueIndex = preservedIndex >= 0 ? preservedIndex : (acceptedQueue.length ? 0 : -1);
@@ -488,22 +523,33 @@ message.style.display = "block";
         ? "Aktuelle Entscheidung: " + item.round_decision.toUpperCase().replace("_", " ")
         : "Noch keine Entscheidung getroffen.";
 
-      async function saveDecision(decision) {
-        const { error } = await supabase
-          .from("song_submissions")
-          .update({ round_decision: decision })
-          .eq("id", item.id);
+  async function saveDecision(decision) {
+  const selectedRound = document.getElementById("currentRoundSelect").value;
 
-        if (error) {
-          alert("Entscheidung konnte nicht gespeichert werden.");
-          console.error(error);
-          return;
-        }
+  const { error } = await supabase
+    .from("song_round_decisions")
+    .upsert({
+      submission_id: item.id,
+      round_name: selectedRound,
+      decision: decision,
+      updated_at: new Date().toISOString()
+    }, {
+      onConflict: "submission_id,round_name"
+    });
 
-        item.round_decision = decision;
-        decisionMessage.textContent =
-          "Entscheidung gespeichert: " + decision.toUpperCase().replace("_", " ");
-      }
+  if (error) {
+    alert("Entscheidung konnte nicht gespeichert werden.");
+    console.error(error);
+    return;
+  }
+
+item.round_decision = decision;
+
+decisionMessage.textContent =
+  "Entscheidung für " + selectedRound + " gespeichert: " +
+  decision.toUpperCase().replace("_", " ");
+
+renderQueue();
 
       const weiterButton = document.createElement("button");
       weiterButton.type = "button";
@@ -551,6 +597,19 @@ queueList.append(row);
     if (currentQueueIndex < acceptedQueue.length - 1) { currentQueueIndex++; renderQueue(); await saveCurrentSong(); }
   });
   document.getElementById("refreshButton").addEventListener("click", loadSubmissions);
+ document.getElementById("currentRoundSelect").addEventListener("change", async (event) => {
+  const { error } = await supabase
+    .from("show_state")
+    .update({ current_round: event.target.value })
+    .eq("id", true);
+
+  if (error) {
+    alert("Die aktuelle Runde konnte nicht gespeichert werden.");
+    console.error(error);
+  } else {
+    await loadSubmissions();
+  }
+});
   document.getElementById("logoutButton").addEventListener("click", async () => {
     await supabase.auth.signOut();
     dashboardCard.hidden = true; loginCard.hidden = false;
