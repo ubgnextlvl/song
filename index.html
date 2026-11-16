@@ -479,7 +479,6 @@ message.style.display = "block";
       link.href = item.song_url; link.target = "_blank"; link.rel = "noopener noreferrer";
       link.textContent = "AKTUELLEN SONG ÖFFNEN"; link.style.color = "#d8ad55";
       currentBox.append(label, title, detail, link);
-    }
       const decisionArea = document.createElement("div");
       decisionArea.className = "actions";
       decisionArea.style.marginTop = "20px";
@@ -520,7 +519,7 @@ message.style.display = "block";
 
       decisionArea.append(weiterButton, rausButton);
       currentBox.append(decisionMessage, decisionArea);
-
+    }
     acceptedQueue.forEach((item, index) => {
       const row = document.createElement("div"); row.className = "submission";
       row.style.borderColor = index === currentQueueIndex ? "#d8ad55" : "#ffffff20";
