@@ -525,7 +525,21 @@ message.style.display = "block";
       row.style.borderColor = index === currentQueueIndex ? "#d8ad55" : "#ffffff20";
       const title = document.createElement("strong"); title.textContent = (index + 1) + ". " + item.artist_name + " – " + item.song_title;
       const meta = document.createElement("p"); meta.textContent = item.platform + (item.battle_round ? " · " + item.battle_round : "");
-      row.append(title, meta); queueList.append(row);
+     const decisionLabel = document.createElement("p");
+decisionLabel.style.fontWeight = "900";
+
+if (item.round_decision === "weiter") {
+  decisionLabel.textContent = "✓ WEITER";
+  decisionLabel.style.color = "#35d477";
+} else if (item.round_decision === "nicht_weiter") {
+  decisionLabel.textContent = "✕ NICHT WEITER";
+  decisionLabel.style.color = "#ff5263";
+} else {
+  decisionLabel.textContent = "⏳ NOCH OFFEN";
+  decisionLabel.style.color = "#d8ad55";
+}
+    row.append(title, meta, decisionLabel);
+queueList.append(row);
     });
     document.getElementById("previousSongButton").disabled = currentQueueIndex <= 0;
     document.getElementById("nextSongButton").disabled = currentQueueIndex < 0 || currentQueueIndex >= acceptedQueue.length - 1;
