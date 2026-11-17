@@ -491,7 +491,11 @@ acceptedQueue.forEach(item => {
           await loadSubmissions();
         });
         
-const deleteButton = document.createElement("button");
+
+
+        actions.append(action);
+      }
+      const deleteButton = document.createElement("button");
 deleteButton.type = "button";
 deleteButton.textContent = "🗑 LÖSCHEN";
 deleteButton.style.background = "#a52232";
@@ -532,9 +536,6 @@ const { error } = await supabase
 });
 
 actions.append(deleteButton);
-
-        actions.append(action);
-      }
       card.append(actions); submissionList.append(card);
     }
   }
