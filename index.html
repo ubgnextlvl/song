@@ -490,6 +490,49 @@ acceptedQueue.forEach(item => {
           if (updateError) { action.disabled = false; alert("Status konnte nicht geändert werden. Bitte erneut versuchen."); return; }
           await loadSubmissions();
         });
+        
+const deleteButton = document.createElement("button");
+deleteButton.type = "button";
+deleteButton.textContent = "🗑 LÖSCHEN";
+deleteButton.style.background = "#a52232";
+
+deleteButton.addEventListener("click", async () => {
+  if (!confirm("Möchtest du diesen Song wirklich dauerhaft löschen?")) return;
+
+  deleteButton.disabled = true;
+
+
+const { error: stateError } = await supabase
+  .from("show_state")
+  .update({ current_submission_id: null })
+  .eq("id", true)
+  .eq("current_submission_id", item.id);
+
+if (stateError) {
+  deleteButton.disabled = false;
+  alert("Show-Status konnte nicht aktualisiert werden.");
+  console.error(stateError);
+  return;
+}
+
+const { error } = await supabase
+  .from("song_submissions")
+  .delete()
+  .eq("id", item.id);
+
+
+  if (error) {
+    deleteButton.disabled = false;
+    alert("Song konnte nicht gelöscht werden.");
+    console.error(error);
+    return;
+  }
+
+  await loadSubmissions();
+});
+
+actions.append(deleteButton);
+
         actions.append(action);
       }
       card.append(actions); submissionList.append(card);
@@ -584,6 +627,48 @@ if (item.round_decision === "weiter") {
   decisionLabel.textContent = "⏳ NOCH OFFEN";
   decisionLabel.style.color = "#d8ad55";
 }
+  
+const queueDeleteButton = document.createElement("button");
+queueDeleteButton.type = "button";
+queueDeleteButton.textContent = "🗑 SONG LÖSCHEN";
+queueDeleteButton.style.background = "#a52232";
+queueDeleteButton.style.marginTop = "8px";
+
+queueDeleteButton.addEventListener("click", async () => {
+  if (!confirm("Diesen Song dauerhaft aus UBG löschen?")) return;
+
+  queueDeleteButton.disabled = true;
+
+  const { error: stateError } = await supabase
+    .from("show_state")
+    .update({ current_submission_id: null })
+    .eq("id", true)
+    .eq("current_submission_id", item.id);
+
+  if (stateError) {
+    queueDeleteButton.disabled = false;
+    alert("Der aktuelle Show-Status konnte nicht aktualisiert werden.");
+    console.error(stateError);
+    return;
+  }
+
+  const { error } = await supabase
+    .from("song_submissions")
+    .delete()
+    .eq("id", item.id);
+
+  if (error) {
+    queueDeleteButton.disabled = false;
+    alert("Song konnte nicht gelöscht werden.");
+    console.error(error);
+    return;
+  }
+
+  await loadSubmissions();
+});
+
+row.append(queueDeleteButton);
+    
     row.append(title, meta, decisionLabel);
 queueList.append(row);
     });
